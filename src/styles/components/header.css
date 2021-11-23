@@ -1,0 +1,24 @@
+.header{  
+    width: 100%;
+    position: sticky;
+    margin: 0px;
+
+    background-color: rgba(36, 83, 114, 0.795);
+
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo{
+    color: whitesmoke;
+    margin: 2px 15px;
+    font-size: 22;
+    font-family: 'Roboto Slab', serif;
+}
+
+.logo .first-letter {
+    font-size: 35px;
+}
+

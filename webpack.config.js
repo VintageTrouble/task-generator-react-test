@@ -16,10 +16,17 @@ module.exports = {
         open: true,
         hot: true
     },
+    resolve: {
+        alias: {
+          'Styles': path.resolve(__dirname, 'src/styles'),
+          'Components': path.resolve(__dirname, 'src/components'),
+          'Pages': path.resolve(__dirname, 'src/Pages')
+        },
+    },    
     module: {
         rules: [
           {
-            test: /\.js$/,
+            test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: {
               loader: "babel-loader"

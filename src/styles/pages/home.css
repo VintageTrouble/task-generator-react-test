@@ -1,0 +1,20 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+
+    min-width: 300px;
+    width: 30%;
+
+    margin: auto
+}
+
+.label{
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+}
+
+.home>.label{
+    margin: 5px auto;
+}

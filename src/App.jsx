@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import { Home } from 'Pages/index.js'
-import { Header } from 'Components/index.js'
+import { Home } from 'Pages'
+import { Header } from 'Components'
 
 import 'Styles/App.css';
 

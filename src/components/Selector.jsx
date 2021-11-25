@@ -3,6 +3,7 @@ import React from 'react'
 import 'Styles/components/selector.css'
 
 const Selector = ({label, data, onClickItem}) => {
+    const selfRef = React.useRef();
     const [isOpened, setIsOpened] = React.useState(false)
     const [selectedItem, setSelectedItem] = React.useState(null)
 
@@ -14,8 +15,20 @@ const Selector = ({label, data, onClickItem}) => {
         onClickItem && onClickItem(item) 
     }
 
+    const handleOutsideClick = (event) => {
+        const path = event.path || (event.composedPath && event.composedPath());
+
+        if (!path.includes(selfRef.current)) {
+            setIsOpened(false);
+        }
+    };
+
+    React.useEffect(() => {
+        document.body.addEventListener('click', handleOutsideClick);
+      }, []);
+
     return (
-        <div className='selector'>
+        <div className='selector' ref={selfRef}>
             <label className='label'
                 onClick={switchOpen}>
                 <i className={`fas fa-caret-${isOpened ? 'up' : 'down'}`} />

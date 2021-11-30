@@ -1,34 +1,34 @@
 import React, { Component } from 'react'
 import { Input, Selector, Button } from 'Components'
+import { getTaskTypes } from 'API'
 
 import 'Styles/pages/home.css'
 
 export class Home extends Component {
-    task = {
-        label: null,
-        type_id: null,
-        description: null
+    constructor(props){
+        super(props)
+
+        this.state = {
+            data: [],
+            task: {
+                id: 0,
+                label: null,
+                type_id: null,
+                description: null
+            }
+        }
     }
 
+    async componentDidMount(){
+        const data = await getTaskTypes()
+        this.setState({...this.state, data: data })
+    }
+    
     submit = () => {
-        console.log(this.task)
+        console.log(this.state.task)
     }
-
-    data = [
-        {id: 1, text: 'epic'},
-        {id: 2, text: 'task'},
-        {id: 3, text: 'bug-fix'},
-        {id: 4, text: 'test'},
-        {id: 5, text: 'design'},
-        {id: 6, text: 'devops'},
-        {id: 7, text: 'frontend'},
-        {id: 8, text: 'backend'},
-    ]
 
     render() {
-        //get data from redux
-        
-
         return (
             <form onSubmit={(e) => e.preventDefault()} className='home'>
                 <h1 className='label'>Task Generator</h1>
@@ -36,16 +36,16 @@ export class Home extends Component {
                     className='simple'
                     placeholder='task title...' 
                     label='Task title:'
-                    onChange={(item) => this.task.label = item} />
+                    onChange={(item) => this.setState({...this.state, task:{...this.state.task, label: item }})} />
                 <Selector 
                     label='Task type:' 
-                    data={this.data}
-                    onClickItem={(item) => this.task.type_id = item.id} />
+                    data={this.state.data}
+                    onClickItem={(item) => this.setState({...this.state, task:{...this.state.task, type_id: item.id }})} />
                 <Input className='textarea' 
                     textarea 
                     placeholder='task description...' 
                     label='Description:'
-                    onChange={(item) => this.task.description = item}/>
+                    onChange={(item) => this.setState({...this.state, task:{...this.state.task, description: item }})}/>
                 <Button 
                     className='button'
                     type="submit"

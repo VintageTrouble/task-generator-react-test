@@ -20,7 +20,9 @@ module.exports = {
         alias: {
           'Styles': path.resolve(__dirname, 'src/styles'),
           'Components': path.resolve(__dirname, 'src/components'),
-          'Pages': path.resolve(__dirname, 'src/Pages')
+          'Pages': path.resolve(__dirname, 'src/Pages'),
+          'API': path.resolve(__dirname, 'src/api'),
+          'Redux': path.resolve(__dirname, 'src/redux')
         },
     },    
     module: {
@@ -29,8 +31,17 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: {
-              loader: "babel-loader"
-            },
+              loader: "babel-loader",
+              options:{
+                presets: [
+                  '@babel/preset-env',
+                  '@babel/preset-react'
+                ],
+                plugins: [
+                    '@babel/transform-runtime'
+                ]
+              }
+            },              
           },
           {
             test: /\.css$/,

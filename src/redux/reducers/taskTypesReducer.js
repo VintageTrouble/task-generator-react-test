@@ -2,7 +2,7 @@ const initialState = {
     items: [],
 };
   
-  const taskTypes = (state = initialState, action) => {
+  const taskTypesReducer = (state = initialState, action) => {
     if (action.type === 'SETUP_TASKTYPES') {
       return {
         ...state,
@@ -13,4 +13,4 @@ const initialState = {
     return state;
   };
   
-  export default taskTypes;
+  export default taskTypesReducer;

@@ -1,17 +1,14 @@
 .button{
-    padding: 5px 10px;
-    margin: 5px auto;
-
     cursor: pointer;
-
+    padding: 5px 10px;
     background-color: rgb(65, 65, 255);
     color:whitesmoke;
     
-    font-size: 16px;
+    font-size: inherit;
 
     border-radius: 15px;
 
-    width: 40%;
+    width: 100%;
 }
 
 .button:hover{
@@ -20,4 +17,9 @@
 
 .button:active{
     background-color: rgb(65, 65, 255);
+}
+
+.button.disabled{
+    cursor: not-allowed;
+    background-color: rgb(132, 132, 160);
 }

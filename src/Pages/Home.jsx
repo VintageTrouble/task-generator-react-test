@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+
 import { Input, Selector, Button } from 'Components'
 import { getTaskTypes, addTask } from 'API'
 import { setupTaskTypes } from 'Redux/actions'
+import { withNavigate } from 'HOC'
 
 import 'Styles/pages/home.css'
-import { Link } from 'react-router-dom'
-
 
 export class Home extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            newTask: {
+            newTask: { 
                 id: 0,
                 label: null,
                 type_id: null,
@@ -25,14 +25,27 @@ export class Home extends Component {
 
     async componentDidMount() {
         const taskTypes = await getTaskTypes()
-
         window.store.dispatch(setupTaskTypes(taskTypes))
     }
     
     submit = async () => {
         const task = await addTask(this.state.newTask)
-        window.store.dispatch(addTaskAction(task))
+        this.setState({
+            ...this.state, 
+            newTask:{
+                ...this.state.newTask, 
+                id: task.id 
+            }
+        })
+
+        this.props.navigate(`/tasks/${task.id}`)
     }
+
+    isValid = () => this.state.newTask.label 
+        && this.state.newTask.label.length > 0
+        && this.state.newTask.type_id
+        && this.state.newTask.type_id > 0
+    
 
     render() {
         return (
@@ -53,14 +66,10 @@ export class Home extends Component {
                     label='Description:'
                     onChange={(item) => this.setState({...this.state, newTask:{...this.state.newTask, description: item }})}/>
                 <Button 
-                    className='button'
-                    type="submit"
-                    onClick={this.submit}>
-                        <Link 
-                            to={`/tasks/${this.state.newTask.id}`}
-                            className='link hidden'>
-                                Submit
-                        </Link>
+                    className={`button ${ this.isValid() ? '' : 'disabled'}` }
+                    onClick={this.submit}
+                >
+                    Submit
                 </Button>
             </form>
         )
@@ -73,4 +82,4 @@ const mapStoreToProps = (state) =>{
     }
 }
 
-export default connect(mapStoreToProps)(Home)
+export default connect(mapStoreToProps)(withNavigate(Home))

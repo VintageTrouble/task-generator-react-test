@@ -24,7 +24,8 @@ module.exports = {
           'Components': path.resolve(__dirname, 'src/components'),
           'Pages': path.resolve(__dirname, 'src/Pages'),
           'API': path.resolve(__dirname, 'src/api'),
-          'Redux': path.resolve(__dirname, 'src/redux')
+          'Redux': path.resolve(__dirname, 'src/redux'),
+          'HOC': path.resolve(__dirname, 'src/HOC')
         },
     },    
     module: {

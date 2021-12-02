@@ -12,10 +12,7 @@
     border-radius: 10px;
 }
 
-.link.hidden{
-    text-decoration: none;
-}
-
-.link.hidden:visited{
-    color: inherit;
+.label{
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
 }

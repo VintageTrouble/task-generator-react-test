@@ -30,12 +30,14 @@ const Task = () => {
                             {task.label}
                         </h1>
                     </div>
-                    <p className='category'>
+                    <div className='category'>
                         <p className='label'>Category: {taskType.text}</p>
-                    </p>
+                    </div>
                     <div className='description'>
                         <p className='label'>Description:</p>
-                        <div className='text'>{task.description}</div>
+                        <div className='text'>
+                            {task.description}
+                        </div>
                     </div>
                 </div>
             :

@@ -2,7 +2,7 @@ import React from 'react'
 
 import 'Styles/components/selector.css'
 
-const Selector = ({label, data, onClickItem}) => {
+const Selector = React.forwardRef(({label, data, onClickItem}, ref) => {
     const selfRef = React.useRef();
     const [isOpened, setIsOpened] = React.useState(false)
     const [selectedItem, setSelectedItem] = React.useState(null)
@@ -30,7 +30,8 @@ const Selector = ({label, data, onClickItem}) => {
     return (
         <div className='selector' ref={selfRef}>
             <label className='label'
-                onClick={switchOpen}>
+                onClick={switchOpen}
+                ref={ref}>
                 <i className={`fas fa-caret-${isOpened ? 'up' : 'down'}`} />
                 {label}
             </label>
@@ -71,6 +72,6 @@ const Selector = ({label, data, onClickItem}) => {
             }
         </div>
     )
-}
+})
 
 export default Selector

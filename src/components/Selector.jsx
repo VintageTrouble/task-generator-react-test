@@ -50,13 +50,11 @@ const Selector = ({label, tabIndex, data, onClickItem}) => {
             case "Enter":
                 setIsOpened(false);
             case "Tab":
-                e.preventdefault()
+                e.preventDefault()
                 break;
             case "ArrowUp":
-                e.preventdefault()
                 break;
             case "ArrowDown":
-                e.preventdefault()
                 break;
             default:
                 break;
@@ -107,6 +105,7 @@ const Selector = ({label, tabIndex, data, onClickItem}) => {
                                         key={item.id}
                                         tabIndex={'1'}
                                         ref={ref}
+                                        onFocus={(e) => e.preventDefault()}
                                         
                                     >
                                         <div className="wrapper">{item.text}</div> 

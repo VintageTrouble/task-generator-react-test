@@ -23,15 +23,16 @@ export class Home extends Component {
             selectedItem: 0
         }
 
-        this.selectRefs = [React.createRef(), React.createRef(), React.createRef()]
+        this.selectRefs = [React.createRef(), React.createRef()]
     }
 
     async componentDidMount() {
         const taskTypes = await getTaskTypes()
         window.store.dispatch(setupTaskTypes(taskTypes))
 
-        this.selectRefs[this.state.selectedItem].current.click()
-    }
+        
+        this.selectRefs[0].current.focus();
+    }  
     
     submit = async () => {
         const task = await addTask(this.state.newTask)
@@ -46,71 +47,43 @@ export class Home extends Component {
         this.props.navigate(`/tasks/${task.id}`)
     }
 
-    //task validation
     isValid = () => this.state.newTask.label 
         && this.state.newTask.label.length > 0
         && this.state.newTask.type_id
         && this.state.newTask.type_id > 0
     
-    handleKeyPress = async (event) => {
-        switch (event.key) {
-            case 'Enter':
-                event.preventDefault();
-                if(this.isValid()) {
-                    this.submit()
-                }
-                break;
-            case 'Tab':
-                event.preventDefault();
-                this.handleTabClick()
-                break
-            default:
-                break;
-        }
-    }
-
-    handleTabClick = () => {
-        this.state.selectedItem === this.selectRefs.length - 1
-            ? this.setState({...this.state, selectedItem: 0})
-            : this.setState({...this.state, selectedItem: this.state.selectedItem + 1})
-
-        this.selectRefs[this.state.selectedItem].current.click()
-    }
-
     render() {
         return (
-            <form 
-                onSubmit={(e) => e.preventDefault()} 
-                className='home' 
-                onKeyDown={this.handleKeyPress}>
+            <div className='home'>
                 <h1 className='label'>Task Generator</h1>
+                <span tabIndex={'0'} onFocus={() => this.selectRefs[1].current.focus()}/>
                 <Input 
                     className='simple'
                     placeholder='task title...' 
                     label='Task title:'
                     onChange={(item) => this.setState({...this.state, newTask:{...this.state.newTask, label: item }})}
-                    onKeyPress={this.handleKeyPress} 
-                    ref={this.selectRefs[0]}/>
+                    ref={this.selectRefs[0]}
+                    tabIndex={'0'} />
                 <Selector 
                     label='Task type:' 
                     data={this.props.taskTypes}
                     onClickItem={(item) => this.setState({...this.state, newTask:{...this.state.newTask, type_id: item.id }})}
-                    ref={this.selectRefs[1]} />
+                    tabIndex={'0'} />
                 <Input className='textarea' 
                     textarea 
                     placeholder='task description...' 
                     label='Description:'
                     onChange={(item) => this.setState({...this.state, newTask:{...this.state.newTask, description: item }})}
-                    onKeyPress={this.handleKeyPress}
-                    ref={this.selectRefs[2]}/>
+                    tabIndex={'0'} />
                 <Button 
                     className={`button ${ this.isValid() ? '' : 'disabled'}` }
-                    onClick={this.submit}
-                    onKeyPress={this.handleKeyPress}
-                >
+                    onClick={() => {if(this.isValid()) {this.submit()}}}
+                    ref={this.selectRefs[1]}
+                    tabIndex={ this.isValid() ? '0' : '-1'}>
                     Submit
                 </Button>
-            </form>
+                <span tabIndex={'0'} onFocus={() => this.selectRefs[0].current.focus()}/>
+            </div>
         )
     }
 }

@@ -34,29 +34,37 @@ const Selector = ({label, tabIndex, data, onClickItem}) => {
       }, []); 
 
     React.useEffect(() => {
-        if(isOpened){
-            firstItemRef.current && firstItemRef.current.focus();
+        if(isOpened && firstItemRef.current){
+            firstItemRef.current.focus();
         } else {
             selfRef.current.focus()
         }
       }, [isOpened])
 
     const handleKeyDown = (e) => {
-        console.log(e.code)
-        switch (e.code) {
-            case "Space":
-                switchOpen();   
-                break;
-            case "Enter":
-                setIsOpened(false);
-            case "Tab":
+        switch (e.code.toLowerCase()) {
+            case "space":
+                switchOpen();  
                 e.preventDefault()
                 break;
-            case "ArrowUp":
+            case "enter":
+                onSelectItem(getItemByIndex(document.activeElement.id))
+                setIsOpened(false);
+            case "tab":
+                if(isOpened) {
+                    e.preventDefault()
+                }
                 break;
-            case "ArrowDown":
+            case "arrowup":
+                e.target.previousElementSibling.focus()
+                e.preventDefault()
+                break;
+            case "arrowdown":
+                e.target.nextElementSibling.focus()
+                e.preventDefault()
                 break;
             default:
+                e.preventDefault();
                 break;
         }
     }
@@ -94,7 +102,7 @@ const Selector = ({label, tabIndex, data, onClickItem}) => {
             {isOpened &&
                 <div className='drop-down'>
                     <ul>
-                        <span tabIndex={'1'} onFocus={() => lastItemRef.current.focus()}/>
+                        <span tabIndex={'0'} onFocus={() => lastItemRef.current.focus()}/>
                         {data &&
                             data.map((item, i) => {
                                 const ref = i === 0 ? firstItemRef : lastItemRef
@@ -103,9 +111,11 @@ const Selector = ({label, tabIndex, data, onClickItem}) => {
                                         onClick={() => onSelectItem(item)}
                                         className='item'
                                         key={item.id}
+                                        id={item.id}
                                         tabIndex={'1'}
                                         ref={ref}
                                         onFocus={(e) => e.preventDefault()}
+                                        autoFocus
                                         
                                     >
                                         <div className="wrapper">{item.text}</div> 
@@ -113,7 +123,7 @@ const Selector = ({label, tabIndex, data, onClickItem}) => {
                                 )
                             })
                         }
-                        <span tabIndex={'1'} onFocus={() => firstItemRef.current.focus()}/>
+                        <span tabIndex={'0'} onFocus={() => {firstItemRef.current.focus()}}/>
                     </ul>
                 </div>
             }

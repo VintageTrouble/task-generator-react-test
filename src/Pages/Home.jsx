@@ -23,15 +23,15 @@ export class Home extends Component {
             selectedItem: 0
         }
 
-        this.selectRefs = [React.createRef(), React.createRef()]
+        this.firstItemRef = React.createRef()
+        this.lastItemRef = React.createRef()
     }
 
     async componentDidMount() {
         const taskTypes = await getTaskTypes()
         window.store.dispatch(setupTaskTypes(taskTypes))
 
-        
-        this.selectRefs[0].current.focus();
+        this.firstItemRef.current.focus();
     }  
     
     submit = async () => {
@@ -56,13 +56,13 @@ export class Home extends Component {
         return (
             <div className='home'>
                 <h1 className='label'>Task Generator</h1>
-                <span tabIndex={'0'} onFocus={() => this.selectRefs[1].current.focus()}/>
+                <span tabIndex={'0'} onFocus={() => this.lastItemRef.current.focus() }/>
                 <Input 
                     className='simple'
                     placeholder='task title...' 
                     label='Task title:'
                     onChange={(item) => this.setState({...this.state, newTask:{...this.state.newTask, label: item }})}
-                    ref={this.selectRefs[0]}
+                    ref={this.firstItemRef}
                     tabIndex={'0'} />
                 <Selector 
                     label='Task type:' 
@@ -77,12 +77,16 @@ export class Home extends Component {
                     tabIndex={'0'} />
                 <Button 
                     className={`button ${ this.isValid() ? '' : 'disabled'}` }
-                    onClick={() => {if(this.isValid()) {this.submit()}}}
-                    ref={this.selectRefs[1]}
+                    onClick={() => {
+                            if(this.isValid()) {
+                                this.submit()
+                            }
+                        }}
+                    ref={this.lastItemRef}
                     tabIndex={ this.isValid() ? '0' : '-1'}>
                     Submit
                 </Button>
-                <span tabIndex={'0'} onFocus={() => this.selectRefs[0].current.focus()}/>
+                <span tabIndex={'0'} onFocus={() => this.firstItemRef.current.focus()}/>
             </div>
         )
     }
